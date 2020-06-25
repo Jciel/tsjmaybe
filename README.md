@@ -18,7 +18,7 @@ type Maybe<T> =
 <br>
 <br>
 
-getValue -> T
+getValue -> T  
 ```typescript
 const existString: Maybe<string> = new Some(" maybe ")
 const noExistString: Maybe<string> = new None()
@@ -29,7 +29,7 @@ noExistString.getValue() //
 
 <br>
 
-__map__ <U>(T) => U -> Maybe<U>  
+__map__ <U>(T) => U -> Maybe<U>   
 ```typescript
 const existString: Maybe<string> = new Some(" maybe ")
 const noExistString: Maybe<string> = new None()
@@ -47,7 +47,7 @@ const resultMapNoExistString = noExistString
 
 <br>
 
-__matchWith__ <U, C>{ Some: (T) => U, None: () => C } -> Maybe<U> | Maybe<C>
+__matchWith__ <U, C>{ Some: (T) => U, None: () => C } -> Maybe<U> | Maybe<C>   
 ```typescript
 const existString: Maybe<string> = new Some(" maybe ")
 const noExistString: Maybe<string> = new None()
@@ -80,3 +80,16 @@ const matchWithReturnNewMaybe = noExistString.matchWith({
         }
     }) // Maybe<string> -> Some { value: "Add some string" }
 ```
+
+<br>
+<br>
+
+#### Contribute
+
+Report a suggestion by posting an issue
+Star the project
+
+<br>
+
+#### License
+MIT
