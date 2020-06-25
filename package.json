@@ -1,0 +1,31 @@
+{
+  "name": "tsjmaybe",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jciel/tsjmaybe.git"
+  },
+  "keywords": [
+    "maybe",
+    "option",
+    "fp",
+    "typescript",
+    "undefined",
+    "null"
+  ],
+  "author": "Jociel Souza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jciel/tsjmaybe/issues"
+  },
+  "homepage": "https://github.com/Jciel/tsjmaybe#readme",
+  "dependencies": {
+    "typescript": "^3.9.5"
+  }
+}
