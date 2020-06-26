@@ -9,6 +9,10 @@ export class Some<T> {
     matchWith<U, C>(pattern: { Some: (value: T) => U, None: () => C }): Maybe<U> | Maybe<C> {
         return new Some(pattern.Some(this.value))
     }
+
+    withDefaultValue(defValue: T): Maybe<T> {
+        return new Some(this.value)
+    }
 }
 
 export class None<T> {
@@ -20,5 +24,9 @@ export class None<T> {
             return new None<C>()
         }
         return new Some(v)
+    }
+
+    withDefaultValue<T>(defValue: T): Maybe<T> {
+        return new Some(defValue)
     }
 }
