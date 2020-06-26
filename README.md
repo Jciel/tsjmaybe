@@ -1,10 +1,16 @@
 
 # tsjmaybe
 
----
-
 Maybe is a type with tow variantes Some and None, can have nothing (None) or some value (Some).  
 The Maybe variable makes it possible to have a something depending on the particular value.  
+
+<br>
+
+#### Starting
+tsjmaybe is available as a package on npm.
+```
+$ npm install tsjmaybe
+```
 
 <br>
 
