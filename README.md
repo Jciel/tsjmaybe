@@ -26,7 +26,7 @@ type Maybe<T> =
 
 __getValue__ -> T   
 ```typescript
-const existString: Maybe<string> = new Some(" maybe ")
+const existString: Maybe<string> = new Some(" tsjmaybe ")
 const noExistString: Maybe<string> = new None()
 
 existString.getValue()   // " maybe "
@@ -37,12 +37,12 @@ noExistString.getValue() //
 
 __map__ \<U\>(T) => U -> Maybe\<U\>    
 ```typescript
-const existString: Maybe<string> = new Some(" maybe ")
+const existString: Maybe<string> = new Some(" tsjmaybe ")
 const noExistString: Maybe<string> = new None()
 
 const resultMapExistString = existString
                                .map(s => s.trim())
-                               .map(s => s.toUpperCase()) // Maybe<string> -> Some { value: "MAYBE" }
+                               .map(s => s.toUpperCase()) // Maybe<string> -> Some { value: "TSJMAYBE" }
 
 
 const resultMapNoExistString = noExistString
@@ -53,9 +53,9 @@ const resultMapNoExistString = noExistString
 
 <br>
 
-__matchWith__ \<U, C\>{ Some: (T) => U, None: () => C } -> Maybe\<U\> | Maybe\<C\>    
+__matchWith__ \<A\>{ Some: (T) => A, None: () => A } -> Maybe\<A\>  
 ```typescript
-const existString: Maybe<string> = new Some(" maybe ")
+const existString: Maybe<string> = new Some(" tsjmaybe ")
 const noExistString: Maybe<string> = new None()
 
 const matchWithString = existString.matchWith({
@@ -65,7 +65,7 @@ const matchWithString = existString.matchWith({
         None: () => {
             return
         }
-    }) // Maybe<number> -> Some { value: 5 }
+    }) // Maybe<number> -> Some { value: 10 }
 
 const matchWithNoString = noExistString.matchWith({
         Some: (value: string) => {
@@ -104,9 +104,9 @@ const matchWithNoString = noExistString.matchWith({
             return value.length
         },
         None: () => {
-            return
+            return undefined
         }
-    }).withDefaultValue("Length unknown") // Maybe<string> -> Some { value: "Length unknown" }
+    }).withDefaultValue(6) // Maybe<number> -> None { value: 6 }
 ```
     
 

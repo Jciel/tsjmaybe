@@ -1,121 +1,171 @@
-import { Maybe, Some, None } from "../src/Maybe"
+import { Maybe, Some, None } from "../src"
 
 describe('Test method map from maybe type', () => {
 
-  test('Test method map with data type number', () => {
-    let maybeSomeNumber: Maybe<number>
-    let maybeNoneNumber: Maybe<number>
+  let maybeSomeNumber: Maybe<number>
+  let maybeNoneNumber: Maybe<number>
 
+  beforeAll(() => {
     maybeSomeNumber = new Some(4)
     maybeNoneNumber = new None()
+  })
 
-    const mapSomeNumber = maybeSomeNumber.map((value: number) => value * 2)
-    const mapNoneNumber = maybeNoneNumber.map((value: number) => value * 2)
+  test('Test method map in a Some with function that returns a number, in this case it should return ' +
+      'a Some with the value', () => {
+
+    const mapSomeReturnValue = maybeSomeNumber.map((value: number) => value * 2)
+
+    expect(mapSomeReturnValue instanceof Some).toEqual(true)
+    expect(mapSomeReturnValue.getValue()).toEqual(8)
+  })
+
+  test('Test method map in a Some with function that returns a value with a diferent type from the original, ' +
+      'in this case it should return a Some with the value', () => {
+
     const mapSomeReturnAnotherType = maybeSomeNumber.map((value: number) => "string returned")
+
+    expect(mapSomeReturnAnotherType instanceof Some).toEqual(true)
+    expect(mapSomeReturnAnotherType.getValue()).toEqual("string returned")
+  })
+
+  test('Test method map in a Some with function that returns "void", in this case it should return a None', () => {
+
     const mapSomeReturnVoid = maybeSomeNumber.map((value: number) => { return } )
+
+    expect(mapSomeReturnVoid instanceof None).toEqual(true)
+    expect(mapSomeReturnVoid.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a Some with function that returns undefined, in this case it should return a None', () => {
+
     const mapSomeReturnUndefined = maybeSomeNumber.map((value: number) => { return undefined } )
+
+    expect(mapSomeReturnUndefined instanceof None).toEqual(true)
+    expect(mapSomeReturnUndefined.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a Some with function that returns an object, in this case it should return a Some ' +
+      'with the object', () => {
+
     const mapSomeReturnObject = maybeSomeNumber.map((value: number) => { return { a: 4 }} )
 
-    expect(maybeSomeNumber instanceof Some).toEqual(true)
-    expect(maybeNoneNumber instanceof None).toEqual(true)
-    expect(mapSomeNumber instanceof Some).toEqual(true)
-    expect(mapNoneNumber instanceof None).toEqual(true)
-    expect(mapSomeReturnAnotherType instanceof Some).toEqual(true)
-    expect(mapSomeReturnVoid instanceof None).toEqual(true)
-    expect(mapSomeReturnUndefined instanceof None).toEqual(true)
     expect(mapSomeReturnObject instanceof Some).toEqual(true)
-
-    expect(mapSomeNumber.getValue()).toEqual(8)
-    expect(mapNoneNumber.getValue()).toEqual(undefined)
-    expect(mapSomeReturnAnotherType.getValue()).toEqual("string returned")
-    expect(mapSomeReturnVoid.getValue()).toEqual(undefined)
-    expect(mapSomeReturnUndefined.getValue()).toEqual(undefined)
     expect(mapSomeReturnObject.getValue()).toEqual({ a: 4 })
     expect(mapSomeReturnObject.getValue()).toHaveProperty("a")
   })
 
-  test('Test method map with data type string', () => {
-    let maybeSomeString: Maybe<string>
-    let maybeNoneString: Maybe<string>
+  test('Test method map in a Some applying a sequence of functions, in this case it should return ' +
+      'a Some with the value', () => {
 
-    maybeSomeString = new Some("Test ")
-    maybeNoneString = new None()
+    const mapSomeChain = maybeSomeNumber.map(v => v + 2).map(v => v + 4)
 
-    const mapSomeTrim = maybeSomeString.map(s => s.trim())
-    const mapSomeChain = maybeSomeString.map(s => s.trim()).map(s => s.toUpperCase())
-    const mapSomeReturnAnotherType = maybeSomeString.map((value: string) => 7)
-    const mapSomeChainFail = maybeSomeString.map(s => { return }).map(s => "string")
-    const mapNoneString = maybeNoneString.map(s => s.trim())
-    const mapNoneChain = maybeNoneString.map(s => s.trim()).map(s => s.toUpperCase())
-    const mapNoneReturnString = maybeNoneString.map(s => "string")
-
-
-    expect(mapSomeTrim instanceof Some).toEqual(true)
     expect(mapSomeChain instanceof Some).toEqual(true)
-    expect(mapSomeReturnAnotherType instanceof Some).toEqual(true)
-    expect(mapNoneString instanceof None).toEqual(true)
+    expect(mapSomeChain.getValue()).toEqual(10)
+  })
+
+  test('Test method map in a Some applying a sequence of functions in which one returns "void", ' +
+      'in this case it should return a None', () => {
+
+    const mapSomeChainVoid = maybeSomeNumber.map(s => { return }).map(s => 9)
+
+    expect(mapSomeChainVoid instanceof None).toEqual(true)
+    expect(mapSomeChainVoid.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a Some applying a sequence of functions in which one returns undefined, ' +
+      'in this case it should return a None', () => {
+
+    const mapSomeChainUndefined = maybeSomeNumber.map(s => { return undefined }).map(s => 9)
+
+    expect(mapSomeChainUndefined instanceof None).toEqual(true)
+    expect(mapSomeChainUndefined.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a Some applying a sequence of functions in which one returns null, ' +
+      'in this case it should return a None', () => {
+
+    const mapSomeChainNull = maybeSomeNumber.map(s => { return null }).map(s => 9)
+
+    expect(mapSomeChainNull instanceof None).toEqual(true)
+    expect(mapSomeChainNull.getValue()).toEqual(undefined)
+  })
+
+
+  test('Test method map in a None with function that returns a number, in this case it should return ' +
+      'a None', () => {
+
+    const mapNoneReturnValue = maybeNoneNumber.map((value: number) => 2)
+
+    expect(mapNoneReturnValue instanceof None).toEqual(true)
+    expect(mapNoneReturnValue.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a None with function that returns a value with a diferent type from the original, ' +
+      'in this case it should return a None', () => {
+
+    const mapNoneReturnAnotherType = maybeNoneNumber.map((value: number) => "string returned")
+
+    expect(mapNoneReturnAnotherType instanceof None).toEqual(true)
+    expect(mapNoneReturnAnotherType.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a None with function that returns "void", in this case it should return a None', () => {
+
+    const mapNoneReturnVoid = maybeNoneNumber.map((value: number) => { return } )
+
+    expect(mapNoneReturnVoid instanceof None).toEqual(true)
+    expect(mapNoneReturnVoid.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a None with function that returns undefined, in this case it should return a None', () => {
+
+    const mapNoneReturnUndefined = maybeNoneNumber.map((value: number) => { return undefined } )
+
+    expect(mapNoneReturnUndefined instanceof None).toEqual(true)
+    expect(mapNoneReturnUndefined.getValue()).toEqual(undefined)
+  })
+
+  test('Test method map in a None with function that returns an object, in this case it should return a None', () => {
+
+    const mapNoneReturnObject = maybeNoneNumber.map((value: number) => { return { a: 4 }} )
+
+    expect(mapNoneReturnObject instanceof None).toEqual(true)
+    expect(mapNoneReturnObject.getValue()).toEqual({ a: 4 })
+    expect(mapNoneReturnObject.getValue()).toHaveProperty("a")
+  })
+
+  test('Test method map in a None applying a sequence of functions, in this case it should return a None', () => {
+
+    const mapNoneChain = maybeNoneNumber.map(v => 2).map(v => v + 4)
+
     expect(mapNoneChain instanceof None).toEqual(true)
-    expect(mapSomeChainFail instanceof None).toEqual(true)
-    expect(mapNoneReturnString instanceof None).toEqual(true)
-
-    expect(mapSomeTrim.getValue()).toEqual("Test")
-    expect(mapSomeChain.getValue()).toEqual("TEST")
-    expect(mapSomeReturnAnotherType.getValue()).toEqual(7)
-    expect(mapNoneChain.getValue()).toEqual(undefined)
-    expect(mapNoneReturnString.getValue()).toEqual(undefined)
+    expect(mapNoneChain.getValue()).toEqual(6)
   })
 
-  test('Test method map with data type Array', () => {
-    let maybeSomeArray: Maybe<number[]>
-    let maybeNoneArray: Maybe<number[]>
+  test('Test method map in a None applying a sequence of functions in which one returns "void", ' +
+      'in this case it should return a None', () => {
 
-    maybeSomeArray = new Some([1, 2, 3, 4])
-    maybeNoneArray = new None()
+    const mapNoneChainVoid = maybeNoneNumber.map(s => { return }).map(s => 9)
 
-    const mapSomeArray = maybeSomeArray.map((value: Array<number>) => value.map(v => v + 2))
-    const mapSomeReturnAnotherType = maybeSomeArray.map((value: Array<number>) => "string")
-    const mapSomeReturnVoid = maybeSomeArray.map((value: Array<number>) => { return })
-    const mapSomeReturnUndefined = maybeSomeArray.map((value: Array<number>) => { return undefined })
-    const mapNoneArray = maybeNoneArray.map((value: Array<number>) => value.map(v => v + 2))
-
-    expect(mapSomeArray instanceof Some).toEqual(true)
-    expect(mapSomeReturnAnotherType instanceof Some).toEqual(true)
-    expect(mapSomeReturnVoid instanceof None).toEqual(true)
-    expect(mapSomeReturnUndefined instanceof None).toEqual(true)
-    expect(mapNoneArray instanceof None).toEqual(true)
-
-    expect(mapSomeArray.getValue()).toEqual([3, 4, 5, 6])
-    expect(mapSomeArray.getValue() instanceof Array).toEqual(true)
-    expect(mapSomeReturnAnotherType.getValue()).toEqual("string")
-    expect(mapSomeReturnVoid.getValue()).toEqual(undefined)
-    expect(mapSomeReturnUndefined.getValue()).toEqual(undefined)
-    expect(mapNoneArray.getValue()).toEqual(undefined)
+    expect(mapNoneChainVoid instanceof None).toEqual(true)
+    expect(mapNoneChainVoid.getValue()).toEqual(undefined)
   })
 
-  test('Test method map with data type Object', () => {
-    class SomeClass {
-      field: number[] = [1, 2, 3]
-      someMethod(): string {
-        return "test"
-      }
-    }
-    let someClass = new SomeClass()
-    let maybeSomeObject: Maybe<SomeClass> = new Some(someClass)
-    let maybeNoneObject: Maybe<SomeClass> = new None()
+  test('Test method map in a None applying a sequence of functions in which one returns undefined, ' +
+      'in this case it should return a None', () => {
 
-    const mapSomeObject = maybeSomeObject.map((value: SomeClass) => {
-      value.field = [1, 5, 9]
-      return value
-    })
+    const mapNoneChainUndefined = maybeNoneNumber.map(s => { return undefined }).map(s => 9)
 
-    const mapSomeReturnAnotherType = maybeSomeObject.map((value: SomeClass) => "string")
+    expect(mapNoneChainUndefined instanceof None).toEqual(true)
+    expect(mapNoneChainUndefined.getValue()).toEqual(undefined)
+  })
 
+  test('Test method map in a None applying a sequence of functions in which one returns null, ' +
+      'in this case it should return a None', () => {
 
-    expect(mapSomeObject instanceof Some).toEqual(true)
-    expect(mapSomeReturnAnotherType instanceof Some).toEqual(true)
+    const mapNoneChainNull = maybeNoneNumber.map(s => { return null }).map(s => 9)
 
-    expect(mapSomeObject.getValue()).toEqual({ field: [1, 5, 9] })
-    expect(mapSomeObject.getValue() instanceof SomeClass).toEqual(true)
-    expect(mapSomeReturnAnotherType.getValue()).toEqual("string")
+    expect(mapNoneChainNull instanceof None).toEqual(true)
+    expect(mapNoneChainNull.getValue()).toEqual(undefined)
   })
 })
