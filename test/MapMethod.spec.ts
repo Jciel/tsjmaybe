@@ -49,9 +49,40 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeReturnObject = maybeSomeNumber.map((value: number) => { return { a: 4 }} )
 
-    expect(mapSomeReturnObject instanceof Some).toEqual(true)
+    expect(mapSomeReturnObject instanceof Some).toBe(true)
     expect(mapSomeReturnObject.getValue()).toEqual({ a: 4 })
     expect(mapSomeReturnObject.getValue()).toHaveProperty("a")
+  })
+
+
+  test('Test method map in a Some with function that alter the value object, in this case it should return a' +
+      'Some but not alter the original object. I can alter the Some value and not alter the original object', () => {
+
+    const val = { a: 1, b: 2 }
+    const objOrigin = new Some(val)
+    const mapSomeAlterObject = objOrigin.map((value) => {
+      value.a = 55
+      return value
+    })
+
+    expect(mapSomeAlterObject instanceof Some).toEqual(true)
+    expect(mapSomeAlterObject.getValue()).toEqual({ a: 55, b: 2})
+    expect(val).toEqual({ a: 1, b: 2})
+  })
+
+  test('Test method map in a Some with function that returns an exist object, in this case it should return a' +
+      'Some but not the same exist object. I can alter the original object and not alter the Some value', () => {
+
+    const val = { a: 1, b: 2 }
+    const mapSomeAlterObject = maybeSomeNumber.map((value) => {
+      return val
+    })
+
+    val.a = 99
+
+    expect(mapSomeAlterObject instanceof Some).toEqual(true)
+    expect(mapSomeAlterObject.getValue()).toEqual({ a: 1, b: 2 })
+    expect(val).toEqual({ a: 99, b: 2 })
   })
 
   test('Test method map in a Some applying a sequence of functions, in this case it should return ' +
@@ -130,8 +161,7 @@ describe('Test method map from maybe type', () => {
     const mapNoneReturnObject = maybeNoneNumber.map((value: number) => { return { a: 4 }} )
 
     expect(mapNoneReturnObject instanceof None).toEqual(true)
-    expect(mapNoneReturnObject.getValue()).toEqual({ a: 4 })
-    expect(mapNoneReturnObject.getValue()).toHaveProperty("a")
+    expect(mapNoneReturnObject.getValue()).toEqual(undefined)
   })
 
   test('Test method map in a None applying a sequence of functions, in this case it should return a None', () => {
@@ -139,7 +169,7 @@ describe('Test method map from maybe type', () => {
     const mapNoneChain = maybeNoneNumber.map(v => 2).map(v => v + 4)
 
     expect(mapNoneChain instanceof None).toEqual(true)
-    expect(mapNoneChain.getValue()).toEqual(6)
+    expect(mapNoneChain.getValue()).toEqual(undefined)
   })
 
   test('Test method map in a None applying a sequence of functions in which one returns "void", ' +

@@ -1,16 +1,20 @@
+const cloneDeep = require('lodash.clonedeep');
+
 export type Maybe<T> =
     | None<T>
     | Some<T>
 
 export class Some<T> {
-    constructor(public value: T) {}
+    constructor(private value: T) {
+        this.value = cloneDeep(value)
+    }
 
     getValue(): T {
         return this.value
     }
 
     map<U>(f: (value: T) =>  U): Maybe<U>  {
-        let nv = f(this.value)
+        let nv = f(cloneDeep(this.value))
         if (typeof nv === "undefined" || nv === null) {
             return new None()
         }
@@ -18,7 +22,7 @@ export class Some<T> {
     }
 
     matchWith<A>(pattern: { Some: (value: T) => A, None: () => A }): Maybe<A> {
-        const v = pattern.Some(this.value)
+        const v = pattern.Some(cloneDeep(this.value))
 
         if (typeof v === "undefined" || v === null) {
             return new None<A>()
@@ -27,7 +31,7 @@ export class Some<T> {
     }
 
     withDefaultValue(defValue: T): Maybe<T> {
-        return new Some(this.value)
+        return new Some(cloneDeep(this.value))
     }
 }
 
@@ -49,7 +53,7 @@ export class None<T> {
     }
 
     withDefaultValue<C>(defValue: C): Maybe<C> {
-        return new Some(defValue)
+        return new Some(cloneDeep(defValue))
     }
 }
 

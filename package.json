@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Jciel/tsjmaybe#readme",
   "dependencies": {
+    "lodash.clonedeep": "^4.5.0",
     "typescript": "^3.9.5"
   },
   "devDependencies": {
