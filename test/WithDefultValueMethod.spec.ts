@@ -13,8 +13,8 @@ describe('Test method withDefaultValue from maybe type', () => {
         const defaultSomeNumber = maybeSomeNumber.withDefaultValue(7)
         const defaultNoneNumber = maybeNoneNumber.withDefaultValue(7)
 
-        expect(defaultSomeNumber instanceof Some).toEqual(true)
-        expect(defaultNoneNumber instanceof Some).toEqual(true)
+        expect(defaultSomeNumber).toBeInstanceOf(Some)
+        expect(defaultNoneNumber).toBeInstanceOf(Some)
         expect(defaultSomeNumber.getValue()).toEqual(4)
         expect(defaultNoneNumber.getValue()).toEqual(7)
     })
@@ -28,7 +28,7 @@ describe('Test method withDefaultValue from maybe type', () => {
             None: () => { return undefined }
         }).withDefaultValue(8)
 
-        expect(defaulMatchWithSomeReturnSameType instanceof Some).toEqual(true)
+        expect(defaulMatchWithSomeReturnSameType).toBeInstanceOf(Some)
         expect(defaulMatchWithSomeReturnSameType.getValue()).toEqual(25)
     })
 
@@ -41,10 +41,9 @@ describe('Test method withDefaultValue from maybe type', () => {
             None: () => { return 20 }
         }).withDefaultValue(8)
 
-        expect(defaulMatchWithSomeReturnUndefined instanceof Some).toEqual(true)
+        expect(defaulMatchWithSomeReturnUndefined).toBeInstanceOf(Some)
         expect(defaulMatchWithSomeReturnUndefined.getValue()).toEqual(8)
     })
-
 
     test('Test of method withDefaultValue after method matchWith witch are None and return an value, ' +
         'this case result of None pattern return an Some and the withDefaultMethod return a Some with same ' +
@@ -55,10 +54,9 @@ describe('Test method withDefaultValue from maybe type', () => {
             None: () => { return 33 }
         }).withDefaultValue(8)
 
-        expect(defaulMatchWithNoneReturnSameType instanceof Some).toEqual(true)
+        expect(defaulMatchWithNoneReturnSameType).toBeInstanceOf(Some)
         expect(defaulMatchWithNoneReturnSameType.getValue()).toEqual(33)
     })
-
 
     test('Test of method withDefaultValue after method matchWith with are None and return undefined, ' +
         'in this case the result os None pattern is a None and the withDefaultMethod return A Some with the ' +
@@ -69,7 +67,7 @@ describe('Test method withDefaultValue from maybe type', () => {
             None: () => { return undefined }
         }).withDefaultValue(8)
 
-        expect(defaulMatchWithNoneReturnUndefined instanceof Some).toEqual(true)
+        expect(defaulMatchWithNoneReturnUndefined).toBeInstanceOf(Some)
         expect(defaulMatchWithNoneReturnUndefined.getValue()).toEqual(8)
     })
 })

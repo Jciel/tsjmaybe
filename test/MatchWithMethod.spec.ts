@@ -18,7 +18,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return 0 }
         })
 
-        expect(matchWithSome instanceof Some).toEqual(true)
+        expect(matchWithSome).toBeInstanceOf(Some)
         expect(matchWithSome.getValue()).toEqual(8)
     })
 
@@ -30,7 +30,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return "" }
         })
 
-        expect(matchWithSomeReturnAnotherType instanceof Some).toEqual(true)
+        expect(matchWithSomeReturnAnotherType).toBeInstanceOf(Some)
         expect(matchWithSomeReturnAnotherType.getValue()).toEqual("string")
     })
 
@@ -42,7 +42,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return }
         })
 
-        expect(matchWithSomeReturnVoid instanceof None).toEqual(true)
+        expect(matchWithSomeReturnVoid).toBeInstanceOf(None)
         expect(matchWithSomeReturnVoid.getValue()).toEqual(undefined)
     })
 
@@ -54,7 +54,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return null }
         })
 
-        expect(matchWithSomeReturnNull instanceof None).toEqual(true)
+        expect(matchWithSomeReturnNull).toBeInstanceOf(None)
         expect(matchWithSomeReturnNull.getValue()).toEqual(undefined)
     })
 
@@ -66,19 +66,19 @@ describe('Test method map from maybe type', () => {
             None: () => { return }
         })
 
-        expect(matchWithSomeReturnUndefined instanceof None).toEqual(true)
+        expect(matchWithSomeReturnUndefined).toBeInstanceOf(None)
         expect(matchWithSomeReturnUndefined.getValue()).toEqual(undefined)
     })
 
     test('Test method matchWith with an None, this execute None branch pattern and that return an value, in this ' +
-        'case, that return an Some with the value', () => {
+        'case, that return an Some with the value returned from None pattern', () => {
 
         const matchWithNoneReturnNumber = maybeNoneNumber.matchWith({
             Some: (value: number) => { return value * 2 },
             None: () => { return 0 }
         })
 
-        expect(matchWithNoneReturnNumber instanceof Some).toEqual(true)
+        expect(matchWithNoneReturnNumber).toBeInstanceOf(Some)
         expect(matchWithNoneReturnNumber.getValue()).toEqual(0)
     })
 
@@ -90,7 +90,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return "string" }
         })
 
-        expect(matchWithNoneReturnAnotherType instanceof Some).toEqual(true)
+        expect(matchWithNoneReturnAnotherType).toBeInstanceOf(Some)
         expect(matchWithNoneReturnAnotherType.getValue()).toEqual("string")
     })
 
@@ -103,7 +103,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return }
         })
 
-        expect(matchWithNoneReturnVoid instanceof None).toEqual(true)
+        expect(matchWithNoneReturnVoid).toBeInstanceOf(None)
         expect(matchWithNoneReturnVoid.getValue()).toEqual(undefined)
     })
 
@@ -115,7 +115,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return undefined }
         })
 
-        expect(matchWithNoneReturnUndefined instanceof None).toEqual(true)
+        expect(matchWithNoneReturnUndefined).toBeInstanceOf(None)
         expect(matchWithNoneReturnUndefined.getValue()).toEqual(undefined)
     })
 
@@ -127,7 +127,7 @@ describe('Test method map from maybe type', () => {
             None: () => { return null }
         })
 
-        expect(matchWithNoneReturnNull instanceof None).toEqual(true)
+        expect(matchWithNoneReturnNull).toBeInstanceOf(None)
         expect(matchWithNoneReturnNull.getValue()).toEqual(undefined)
     })
 })

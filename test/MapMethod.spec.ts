@@ -4,6 +4,7 @@ describe('Test method map from maybe type', () => {
 
   let maybeSomeNumber: Maybe<number>
   let maybeNoneNumber: Maybe<number>
+  let testando: Maybe<number>
 
   beforeAll(() => {
     maybeSomeNumber = new Some(4)
@@ -15,16 +16,16 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeReturnValue = maybeSomeNumber.map((value: number) => value * 2)
 
-    expect(mapSomeReturnValue instanceof Some).toEqual(true)
+    expect(mapSomeReturnValue).toBeInstanceOf(Some)
     expect(mapSomeReturnValue.getValue()).toEqual(8)
   })
 
   test('Test method map in a Some with function that returns a value with a diferent type from the original, ' +
-      'in this case it should return a Some with the value', () => {
+      'in this case it should return a Some with the  new value type', () => {
 
     const mapSomeReturnAnotherType = maybeSomeNumber.map((value: number) => "string returned")
 
-    expect(mapSomeReturnAnotherType instanceof Some).toEqual(true)
+    expect(mapSomeReturnAnotherType).toBeInstanceOf(Some)
     expect(mapSomeReturnAnotherType.getValue()).toEqual("string returned")
   })
 
@@ -32,7 +33,7 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeReturnVoid = maybeSomeNumber.map((value: number) => { return } )
 
-    expect(mapSomeReturnVoid instanceof None).toEqual(true)
+    expect(mapSomeReturnVoid).toBeInstanceOf(None)
     expect(mapSomeReturnVoid.getValue()).toEqual(undefined)
   })
 
@@ -40,7 +41,7 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeReturnUndefined = maybeSomeNumber.map((value: number) => { return undefined } )
 
-    expect(mapSomeReturnUndefined instanceof None).toEqual(true)
+    expect(mapSomeReturnUndefined).toBeInstanceOf(None)
     expect(mapSomeReturnUndefined.getValue()).toEqual(undefined)
   })
 
@@ -49,7 +50,7 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeReturnObject = maybeSomeNumber.map((value: number) => { return { a: 4 }} )
 
-    expect(mapSomeReturnObject instanceof Some).toBe(true)
+    expect(mapSomeReturnObject).toBeInstanceOf(Some)
     expect(mapSomeReturnObject.getValue()).toEqual({ a: 4 })
     expect(mapSomeReturnObject.getValue()).toHaveProperty("a")
   })
@@ -65,7 +66,7 @@ describe('Test method map from maybe type', () => {
       return value
     })
 
-    expect(mapSomeAlterObject instanceof Some).toEqual(true)
+    expect(mapSomeAlterObject).toBeInstanceOf(Some)
     expect(mapSomeAlterObject.getValue()).toEqual({ a: 55, b: 2})
     expect(val).toEqual({ a: 1, b: 2})
   })
@@ -80,17 +81,17 @@ describe('Test method map from maybe type', () => {
 
     val.a = 99
 
-    expect(mapSomeAlterObject instanceof Some).toEqual(true)
+    expect(mapSomeAlterObject).toBeInstanceOf(Some)
     expect(mapSomeAlterObject.getValue()).toEqual({ a: 1, b: 2 })
     expect(val).toEqual({ a: 99, b: 2 })
   })
 
   test('Test method map in a Some applying a sequence of functions, in this case it should return ' +
-      'a Some with the value', () => {
+      'a Some with the value from the last aplication', () => {
 
     const mapSomeChain = maybeSomeNumber.map(v => v + 2).map(v => v + 4)
 
-    expect(mapSomeChain instanceof Some).toEqual(true)
+    expect(mapSomeChain).toBeInstanceOf(Some)
     expect(mapSomeChain.getValue()).toEqual(10)
   })
 
@@ -99,7 +100,7 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeChainVoid = maybeSomeNumber.map(s => { return }).map(s => 9)
 
-    expect(mapSomeChainVoid instanceof None).toEqual(true)
+    expect(mapSomeChainVoid).toBeInstanceOf(None)
     expect(mapSomeChainVoid.getValue()).toEqual(undefined)
   })
 
@@ -108,7 +109,7 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeChainUndefined = maybeSomeNumber.map(s => { return undefined }).map(s => 9)
 
-    expect(mapSomeChainUndefined instanceof None).toEqual(true)
+    expect(mapSomeChainUndefined).toBeInstanceOf(None)
     expect(mapSomeChainUndefined.getValue()).toEqual(undefined)
   })
 
@@ -117,7 +118,7 @@ describe('Test method map from maybe type', () => {
 
     const mapSomeChainNull = maybeSomeNumber.map(s => { return null }).map(s => 9)
 
-    expect(mapSomeChainNull instanceof None).toEqual(true)
+    expect(mapSomeChainNull).toBeInstanceOf(None)
     expect(mapSomeChainNull.getValue()).toEqual(undefined)
   })
 
@@ -127,7 +128,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneReturnValue = maybeNoneNumber.map((value: number) => 2)
 
-    expect(mapNoneReturnValue instanceof None).toEqual(true)
+    expect(mapNoneReturnValue).toBeInstanceOf(None)
     expect(mapNoneReturnValue.getValue()).toEqual(undefined)
   })
 
@@ -136,7 +137,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneReturnAnotherType = maybeNoneNumber.map((value: number) => "string returned")
 
-    expect(mapNoneReturnAnotherType instanceof None).toEqual(true)
+    expect(mapNoneReturnAnotherType).toBeInstanceOf(None)
     expect(mapNoneReturnAnotherType.getValue()).toEqual(undefined)
   })
 
@@ -144,7 +145,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneReturnVoid = maybeNoneNumber.map((value: number) => { return } )
 
-    expect(mapNoneReturnVoid instanceof None).toEqual(true)
+    expect(mapNoneReturnVoid).toBeInstanceOf(None)
     expect(mapNoneReturnVoid.getValue()).toEqual(undefined)
   })
 
@@ -152,7 +153,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneReturnUndefined = maybeNoneNumber.map((value: number) => { return undefined } )
 
-    expect(mapNoneReturnUndefined instanceof None).toEqual(true)
+    expect(mapNoneReturnUndefined).toBeInstanceOf(None)
     expect(mapNoneReturnUndefined.getValue()).toEqual(undefined)
   })
 
@@ -160,7 +161,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneReturnObject = maybeNoneNumber.map((value: number) => { return { a: 4 }} )
 
-    expect(mapNoneReturnObject instanceof None).toEqual(true)
+    expect(mapNoneReturnObject).toBeInstanceOf(None)
     expect(mapNoneReturnObject.getValue()).toEqual(undefined)
   })
 
@@ -168,7 +169,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneChain = maybeNoneNumber.map(v => 2).map(v => v + 4)
 
-    expect(mapNoneChain instanceof None).toEqual(true)
+    expect(mapNoneChain).toBeInstanceOf(None)
     expect(mapNoneChain.getValue()).toEqual(undefined)
   })
 
@@ -177,7 +178,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneChainVoid = maybeNoneNumber.map(s => { return }).map(s => 9)
 
-    expect(mapNoneChainVoid instanceof None).toEqual(true)
+    expect(mapNoneChainVoid).toBeInstanceOf(None)
     expect(mapNoneChainVoid.getValue()).toEqual(undefined)
   })
 
@@ -186,7 +187,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneChainUndefined = maybeNoneNumber.map(s => { return undefined }).map(s => 9)
 
-    expect(mapNoneChainUndefined instanceof None).toEqual(true)
+    expect(mapNoneChainUndefined).toBeInstanceOf(None)
     expect(mapNoneChainUndefined.getValue()).toEqual(undefined)
   })
 
@@ -195,7 +196,7 @@ describe('Test method map from maybe type', () => {
 
     const mapNoneChainNull = maybeNoneNumber.map(s => { return null }).map(s => 9)
 
-    expect(mapNoneChainNull instanceof None).toEqual(true)
+    expect(mapNoneChainNull).toBeInstanceOf(None)
     expect(mapNoneChainNull.getValue()).toEqual(undefined)
   })
 })

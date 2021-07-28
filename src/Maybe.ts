@@ -4,8 +4,15 @@ export type Maybe<T> =
     | None<T>
     | Some<T>
 
+type MapParameter<T, U> = (value: T) => NonNullable<U> | null | undefined
+
+type PaternMatch<T, A> = {
+    Some: (value: T) => NonNullable<A> | null | undefined,
+    None: () => NonNullable<A> | null | undefined
+}
+
 export class Some<T> {
-    constructor(private value: T) {
+    constructor(private value: NonNullable<T>) {
         this.value = cloneDeep(value)
     }
 
@@ -13,15 +20,16 @@ export class Some<T> {
         return this.value
     }
 
-    map<U>(f: (value: T) =>  U): Maybe<U>  {
+    map<U>(f: MapParameter<T, U>): Maybe<U>  {
         let nv = f(cloneDeep(this.value))
         if (typeof nv === "undefined" || nv === null) {
             return new None()
         }
+
         return new Some(nv)
     }
 
-    matchWith<A>(pattern: { Some: (value: T) => A, None: () => A }): Maybe<A> {
+    matchWith<A>(pattern: PaternMatch<T, A>): Maybe<A> {
         const v = pattern.Some(cloneDeep(this.value))
 
         if (typeof v === "undefined" || v === null) {
@@ -40,11 +48,11 @@ export class None<T> {
 
     getValue(): T { return this.value }
 
-    map<U>(f: (value: T) => U): Maybe<U> {
+    map<U>(f: MapParameter<T, U>): Maybe<U> {
         return new None()
     }
 
-    matchWith<A>(pattern: { Some: (value: T) => A, None: () => A }): Maybe<A> {
+    matchWith<A>(pattern: PaternMatch<T, A>): Maybe<A> {
         const v = pattern.None()
         if (typeof v === "undefined" || v === null) {
             return new None<A>()

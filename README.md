@@ -106,7 +106,7 @@ const matchWithNoString = noExistString.matchWith({
         None: () => {
             return undefined
         }
-    }).withDefaultValue(6) // Maybe<number> -> None { value: 6 }
+    }).withDefaultValue(6) // Maybe<number> -> Some { value: 6 }
 ```
     
 
@@ -117,6 +117,11 @@ const matchWithNoString = noExistString.matchWith({
 
 Report a suggestion by posting an issue   
 Star the project
+
+#### Running tests
+```bash
+npm run test
+```
 
 <br>
 
